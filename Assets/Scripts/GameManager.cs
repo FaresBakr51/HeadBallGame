@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private static GameManager _instance;
+    public static GameManager Instance
     {
-        
+
+        get
+        {
+            if (_instance is null) {
+
+                _instance = new GameManager();
+            
+            }
+            return _instance;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        _instance = this;
+        DontDestroyOnLoad(this);
+    }
+   public GameObject GetCurrentGameBall()
+    {
+        var ball = GameObject.FindGameObjectWithTag("Ball");
+        return ball;
     }
 }
