@@ -12,8 +12,7 @@ public class GameManager : NetworkBehaviour
     public bool _gameOver;
     public bool _goal;
     private GameObject[] _spawnPoints;
-    [SerializeField] private GameObject _player;
-    [SerializeField] private GameObject ball;
+   
     public static GameManager Instance
     {
 
@@ -44,6 +43,7 @@ public class GameManager : NetworkBehaviour
         {
             GameModes._PvPMode = true;
             Debug.Log("Getting Players and Timer");
+          
             StartCoroutine(WaitPlayers());
             
         }

@@ -19,6 +19,7 @@ namespace Mirror.Discovery
         [Tooltip("Transport to be advertised during discovery")]
         public Transport transport;
 
+     
         [Tooltip("Invoked when a server is found")]
         public ServerFoundUnityEvent OnServerFound;
 

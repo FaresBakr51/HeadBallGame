@@ -9,6 +9,7 @@ TagManager:
   - goalleft
   - spawnpoint
   - Timertxt
+  - UICARRD
   layers:
   - Default
   - TransparentFX
