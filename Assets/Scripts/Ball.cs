@@ -26,8 +26,8 @@ public class Ball : NetworkBehaviour
                 if (!GameManager.Instance.IsGameOver() && !GameManager.Instance.Goal())
                 {
                     var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y == 0);
-                    rightplayer.AddGoal(1);
-                    PlayerGoal();
+                    rightplayer.AddGoalServer(1);
+                   // PlayerGoalServerCmd();
                 }
             }
         }
@@ -38,13 +38,18 @@ public class Ball : NetworkBehaviour
                 if (!GameManager.Instance.IsGameOver() && !GameManager.Instance.Goal())
                 {
                     var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y > 20);
-                    rightplayer.AddGoal(1);
-                    PlayerGoal();
+                    rightplayer.AddGoalServer(1);
+                   // PlayerGoalServerCmd();
                 }
             }
         }
     }
-    [Client]
+    [Command]
+    private void PlayerGoalServerCmd()
+    {
+        PlayerGoal();
+    }
+    [ClientRpc]
     private void PlayerGoal()
     {
         if (!GameManager.Instance.Goal())

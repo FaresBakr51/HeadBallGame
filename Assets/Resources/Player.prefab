@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6433835284780283248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -376,8 +376,8 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6433835286561506196}
           m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-          m_MethodName: Move
-          m_Mode: 3
+          m_MethodName: MoveAxis
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1266,7 +1266,7 @@ GameObject:
   - component: {fileID: 6433835286432905263}
   - component: {fileID: 6433835286432905262}
   - component: {fileID: 6433835286432905261}
-  - component: {fileID: 6433835286432905680}
+  - component: {fileID: 9014155456413757942}
   m_Layer: 0
   m_Name: leftbutt
   m_TagString: Untagged
@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6433835286432905680
+--- !u!114 &9014155456413757942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1394,15 +1394,15 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6433835286561506196}
           m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-          m_MethodName: Move
-          m_Mode: 3
+          m_MethodName: MoveAxis
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: -1
             m_FloatArgument: 0
             m_StringArgument: 
-            m_BoolArgument: 0
+            m_BoolArgument: 1
           m_CallState: 2
   - eventID: 3
     callback:
@@ -1467,8 +1467,9 @@ GameObject:
   - component: {fileID: 6433835286561506197}
   - component: {fileID: 6433835286561506196}
   - component: {fileID: 100868656632962306}
-  - component: {fileID: 2199227109756970789}
-  - component: {fileID: 5458295136400190621}
+  - component: {fileID: 264110347372764644}
+  - component: {fileID: 2999458226114648646}
+  - component: {fileID: 2580119290194970230}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1527,9 +1528,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.776876, y: -1.02}
+  m_Offset: {x: -0.61, y: -1.2047045}
   serializedVersion: 2
-  m_Radius: 0.506876
+  m_Radius: 0.22538398
 --- !u!114 &6433835286561506196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,8 +1547,11 @@ MonoBehaviour:
   syncInterval: 0.1
   _mycanavas: {fileID: 6433835284780283215}
   _speed: 250
+  _movingLeft: 0
+  _movingRight: 0
   _goalTxt: {fileID: 0}
   _goals: 0
+  _gamemanage: {fileID: 0}
   _mypos: {x: 0, y: 0}
   _canShot: 0
   _grounded: 0
@@ -1573,7 +1577,7 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 9697415cbb1e1844093f8b9b4b17bfb5
   hasSpawned: 0
---- !u!114 &2199227109756970789
+--- !u!114 &264110347372764644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1582,32 +1586,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 6433835286561506193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5d17e718851449a6879986e45c458fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 1
-  sendInterval: 0
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!114 &5458295136400190621
+--- !u!114 &2999458226114648646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433835286561506193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55365d5b4f322584687e3f0022e89195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matchID: 
+  playerIndex: 0
+  _player: {fileID: 0}
+  _ball: {fileID: 0}
+  currentMatch:
+    matchID: 
+    publicMatch: 0
+    inMatch: 0
+    matchFull: 0
+    players: []
+  playerLobbyUI: {fileID: 0}
+--- !u!114 &2580119290194970230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1625,7 +1634,7 @@ MonoBehaviour:
   clientAuthority: 1
   syncVelocity: 1
   clearVelocity: 0
-  velocitySensitivity: 0.1
+  velocitySensitivity: 0
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1

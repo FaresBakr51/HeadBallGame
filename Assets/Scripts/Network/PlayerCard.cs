@@ -244,10 +244,14 @@ namespace MirrorMatchMaking
         void CmdBeginGame()
         {
             var uiplayers = GameObject.FindGameObjectsWithTag("UICARRD").ToList();
-            if (uiplayers.Count >= 2)
+ 
+            if (uiplayers.All(x=>x.gameObject.activeInHierarchy))
             {
-                MatchMaker.instance.BeginGame(matchID);
-                Debug.Log($"<color=red>Game Beginning</color>");
+                if (uiplayers.Count >=1 )
+                {
+                    MatchMaker.instance.BeginGame(matchID);
+
+                }
             }
         }
 
@@ -262,23 +266,39 @@ namespace MirrorMatchMaking
             Debug.Log($"MatchID: {matchID} | Beginning");
             //Additively load game scene
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
-         
-            CmDAddPlayers();
+            runAsign();
             Debug.Log("Game Start");
         }
-        [Client]
-        private void CmDAddPlayers()
+        [Command]
+        private void runAsign()
         {
-            
-            SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName("GamePlay"));
-            _player.SetActive(true);
-            
-         //   var ball = Instantiate(_ball, new Vector2(0, 1.5f), transform.rotation);
-
-            //   NetworkServer.Spawn(ball);
+            AssignPlayers();
         }
-      
-       
+        
+      IEnumerator WaitPlayer()
+        {
+
+            Debug.Log("Assigning pos player");
+            yield return new WaitForSeconds(1);
+            SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName("GamePlay"));
+            GameManager.Instance.GetCurrentGameBall().SetActive(true);
+            var myplayer = GetComponent<PlayerController>();
+            myplayer.GetComponent<Rigidbody2D>().Sleep();
+            myplayer._gamemanage = FindObjectOfType<GameManage>();
+            transform.position = NetworkManager.startPositions[playerIndex-1].transform.position;
+            transform.rotation = NetworkManager.startPositions[playerIndex - 1].transform.rotation;
+            myplayer._mypos = NetworkManager.startPositions[playerIndex - 1].transform.position;
+            myplayer.StartPorp();
+            GameManager.Instance._gameStart = true;
+        }
+        [ClientRpc]
+        private void AssignPlayers()
+        {
+            StartCoroutine(WaitPlayer());
+        }
+     
+
     }
+   
 
 }

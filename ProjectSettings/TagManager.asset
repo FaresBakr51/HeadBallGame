@@ -10,6 +10,7 @@ TagManager:
   - spawnpoint
   - Timertxt
   - UICARRD
+  - playercard
   layers:
   - Default
   - TransparentFX

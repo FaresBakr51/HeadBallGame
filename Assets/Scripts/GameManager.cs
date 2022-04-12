@@ -11,8 +11,10 @@ public class GameManager : NetworkBehaviour
     public List<PlayerController> _players = new List<PlayerController>();
     public bool _gameOver;
     public bool _goal;
-    private GameObject[] _spawnPoints;
-   
+    public GameObject[] _spawnPoints;
+    public bool _gameStart;
+    [SyncVar]
+    private bool _called;
     public static GameManager Instance
     {
 
@@ -43,7 +45,7 @@ public class GameManager : NetworkBehaviour
         {
             GameModes._PvPMode = true;
             Debug.Log("Getting Players and Timer");
-          
+            GetSpawnpoints();
             StartCoroutine(WaitPlayers());
             
         }
@@ -56,18 +58,19 @@ public class GameManager : NetworkBehaviour
     }
     private void Update()
     {
-        if(SceneManager.GetActiveScene().name != "GamePlay") { return; }
-        if(_players.Count < 2) { return; }
-        if (Goal())
+        if (!_gameStart) return;
+     //   if(_players.Count < 2) { return; }
+        if (Goal() && !_called)
         {
-            StartCoroutine(WaitGoal());
+            CmdWaitForGoal();
+            _called = true;
         }
     }
-    //private void GetSpawnpoints()
-    //{
-    //    _spawnPoints =  GameObject.FindGameObjectsWithTag("spawnpoint");
-      
-    //}
+    private void GetSpawnpoints()
+    {
+        _spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
+
+    }
     public GameObject GetCurrentGameBall()
     {
         var ball = GameObject.FindGameObjectWithTag("Ball");
@@ -104,14 +107,20 @@ public class GameManager : NetworkBehaviour
         yield return new WaitForSeconds(2f);
         SetPlayersInfo();
     }
+   
+    private void CmdWaitForGoal()
+    {
+        StartCoroutine(WaitGoal());
+    }
     [Client]
     IEnumerator WaitGoal()
     {
-
-        yield return new WaitForSeconds(1f);
+        Debug.Log("Waiting Goal");
+        yield return new WaitForSeconds(0.5f);
         GetCurrentGameBall().transform.position = new Vector2(0, 2f);
         RestPlayer();
         _goal = false;
+        _called = false;
     }
    
     private void RestPlayer()
