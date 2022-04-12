@@ -44,20 +44,7 @@ public class Ball : NetworkBehaviour
             }
         }
     }
-    [Command]
-    private void PlayerGoalServerCmd()
-    {
-        PlayerGoal();
-    }
-    [ClientRpc]
-    private void PlayerGoal()
-    {
-        if (!GameManager.Instance.Goal())
-        {
-            GameManager.Instance._goal = true;
-           
-        }
-    }
+
 
     private void ActivePlayertoShot(GameObject pl)
     {

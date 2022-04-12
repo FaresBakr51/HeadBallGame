@@ -42,12 +42,12 @@ public class AutoHost : MonoBehaviour
     }
     public void JoinLocal()
     {
-        //networkManager.networkAddress = _writeIp.text;
+        networkManager.networkAddress = _writeIp.text;
         networkManager.StartClient();
     }
     public void StartHost()
     {
-    //    networkManager.networkAddress = _writeIp.text;
+       networkManager.networkAddress = _writeIp.text;
         networkManager.StartHost();
     }
 

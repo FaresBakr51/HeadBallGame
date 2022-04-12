@@ -247,7 +247,7 @@ namespace MirrorMatchMaking
  
             if (uiplayers.All(x=>x.gameObject.activeInHierarchy))
             {
-                if (uiplayers.Count >=1 )
+                if (uiplayers.Count >=2 )
                 {
                     MatchMaker.instance.BeginGame(matchID);
 
@@ -283,9 +283,10 @@ namespace MirrorMatchMaking
             SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName("GamePlay"));
             GameManager.Instance.GetCurrentGameBall().SetActive(true);
             var myplayer = GetComponent<PlayerController>();
-            myplayer.GetComponent<Rigidbody2D>().Sleep();
+            var playerRig = myplayer.GetComponent<Rigidbody2D>();
+            playerRig.Sleep();
             myplayer._gamemanage = FindObjectOfType<GameManage>();
-            transform.position = NetworkManager.startPositions[playerIndex-1].transform.position;
+            playerRig.position = NetworkManager.startPositions[playerIndex-1].transform.position;
             transform.rotation = NetworkManager.startPositions[playerIndex - 1].transform.rotation;
             myplayer._mypos = NetworkManager.startPositions[playerIndex - 1].transform.position;
             myplayer.StartPorp();
