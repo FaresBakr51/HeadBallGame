@@ -11,6 +11,7 @@ TagManager:
   - Timertxt
   - UICARRD
   - playercard
+  - scoretxt
   layers:
   - Default
   - TransparentFX

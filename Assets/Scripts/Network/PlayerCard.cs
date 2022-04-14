@@ -14,8 +14,8 @@ namespace MirrorMatchMaking
         public static PlayerCard localPlayer;
         [SyncVar] public string matchID;
         [SyncVar] public int playerIndex;
-        [SerializeField] private GameObject _player;
-        [SerializeField] private GameObject _ball;
+        [SerializeField] private GameObject _gameMaanger;
+
         NetworkMatch networkMatch;
 
         [SyncVar] public Match currentMatch;
@@ -247,7 +247,7 @@ namespace MirrorMatchMaking
  
             if (uiplayers.All(x=>x.gameObject.activeInHierarchy))
             {
-                if (uiplayers.Count >=2 )
+                if (uiplayers.Count >=1)
                 {
                     MatchMaker.instance.BeginGame(matchID);
 
@@ -272,6 +272,7 @@ namespace MirrorMatchMaking
         [Command]
         private void runAsign()
         {
+           
             AssignPlayers();
         }
         

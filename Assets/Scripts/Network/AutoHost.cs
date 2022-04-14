@@ -11,6 +11,7 @@ public class AutoHost : MonoBehaviour
     [SerializeField] NetworkManager networkManager;
     [SerializeField] private Text _iptxt;
     [SerializeField] private InputField _writeIp;
+    [SerializeField] private GameObject _gameMaanger;
     public  string LocalIPAddress()
     {
         IPHostEntry host;
@@ -28,7 +29,7 @@ public class AutoHost : MonoBehaviour
     }
     void Start()
     {
-      
+       
         _iptxt.text = LocalIPAddress();
         if (!Application.isBatchMode)
         { //Headless build
@@ -47,9 +48,11 @@ public class AutoHost : MonoBehaviour
     }
     public void StartHost()
     {
+      
        networkManager.networkAddress = _writeIp.text;
         networkManager.StartHost();
     }
+   
 
 
 }

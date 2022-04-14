@@ -1095,7 +1095,8 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
-  - {fileID: 6606338827843384343, guid: e2d7b8a1003e92647a6db00d5c67469f, type: 3}
+  - {fileID: 7167221792025294708, guid: bfc714ee733fee444987266ca52de8f8, type: 3}
+  - {fileID: 0}
 --- !u!4 &1558978203
 Transform:
   m_ObjectHideFlags: 0
@@ -1247,6 +1248,7 @@ MonoBehaviour:
   networkManager: {fileID: 1558978202}
   _iptxt: {fileID: 1052556810}
   _writeIp: {fileID: 825938263}
+  _gameMaanger: {fileID: 320488996983939647, guid: bfc714ee733fee444987266ca52de8f8, type: 3}
 --- !u!1 &1975069470
 GameObject:
   m_ObjectHideFlags: 0

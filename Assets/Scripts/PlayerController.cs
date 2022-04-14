@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using MirrorMatchMaking;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -27,8 +28,11 @@ public class PlayerController : NetworkBehaviour
     [Header("GameMange")]
     public Text _goalTxt;
     public int _goals;
+   
     [SyncVar]
     public GameManage _gamemanage;
+    [SyncVar]
+    public GameManager _gameManager;
    [SerializeField]  public Vector2 _mypos;
 
     [Header("ShotProp")]
@@ -58,6 +62,7 @@ public class PlayerController : NetworkBehaviour
     [Client]
     public void StartPorp()
     {
+      
         _rig.WakeUp();
         if (!isLocalPlayer)
         {
@@ -67,6 +72,7 @@ public class PlayerController : NetworkBehaviour
         {
             _mycanavas.SetActive(true);
         }
+        _gameManager = GetComponent<GameManager>();
         _gamemanage = FindObjectOfType<GameManage>();
         _gamemanage._playersCount++;
         CheckMyProp();
@@ -203,22 +209,84 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     private void ClientJump()
     {
+        if (GameManager.Instance.Goal()) return;
         if (_grounded) { _rig.velocity = new Vector2(_rig.velocity.x, _jumpForce); }
     }
-    
+
+
     [Command]
-    public void AddGoalServer(int goal)
+    public void AddGoal(string axis)
     {
-        AddGoal(goal);
+        // if (!GameManager.Instance._goal) return;
        
+        AddGoalClients(axis);
+   //     GameManager.Instance._goal = true;
+     //   StartCoroutine(WaitGoal());
     }
     [ClientRpc]
-    public void AddGoal(int goal)
+    private void AddGoalClients(string axis)
     {
-        _goals += goal;
+
+        _goals += 1;
         _goalTxt.text = _goals.ToString();
-        GameManager.Instance._goal = true;
+        var allgamemaanger = GameObject.FindObjectsOfType<GameManager>().ToList();
+        allgamemaanger.ForEach(x => x._goal = true);
+       // _gameManager._goal = true;
+        AddGoaleToClients(axis);
+
+      //  _gameManager.CheckAuth(axis);
+    }
+    [Command]
+    private void AddGoaleToClients(string axis)
+    {
+        AddToOTherClients(axis);
+
+    }
+    [ClientRpc]
+    private void AddToOTherClients(string axis)
+    {
+
+
+        StartCoroutine(RunReset());
     }
 
-   
+    IEnumerator RunReset()
+    {
+
+        yield return new WaitForSeconds(1f);
+       _gameManager.GetCurrentGameBall().GetComponent<Rigidbody2D>().position = new Vector2(0, 2.5f);
+        _gameManager._players.ForEach(x => x.ResetPos());
+        var allgamemaanger = GameObject.FindObjectsOfType<GameManager>().ToList();
+        allgamemaanger.ForEach(x => x._goal = false);
+    }
+
+
+    //[Command(requiresAuthority = false)]
+    //public void AddGoalServer(int goal)
+    //{
+
+    //    AddGoal(1);
+    //}
+
+
+    //[ClientRpc(includeOwner = true)]
+    //public void AddGoal(int goal)
+    //{
+
+    //    _goals += goal;
+    //    _goalTxt.text = _goals.ToString();
+    //    GameManager.Instance._goal = true;
+    //    StartCoroutine(WaitGoal());
+    //}
+    //IEnumerator WaitGoal()
+    //{
+    //    Debug.Log("Waiting Goal");
+    //    yield return new WaitForSeconds(0.5f);
+    //    GameManager.Instance.GetCurrentGameBall().GetComponent<Rigidbody2D>().position = new Vector2(0, 2.5f);
+    //    GameManager.Instance.Magnify();
+
+
+    //}
+
+
 }

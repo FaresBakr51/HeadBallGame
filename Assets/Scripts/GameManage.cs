@@ -14,13 +14,14 @@ using MirrorMatchMaking;
         [SerializeField] private GameObject _player;
         [SerializeField] private GameObject _ball;
         [SerializeField] public Text[] _scoreTxt;
-    [SerializeField] GameObject[] _players;
-  
-        void Start()
+        [SerializeField] GameObject[] _players;
+       [SerializeField] GameObject _gameMaanger;
+
+    void Start()
         {
             _timer = 90;
-
-             _players = GameObject.FindGameObjectsWithTag("playercard");
+      
+        _players = GameObject.FindGameObjectsWithTag("playercard");
             if (isLocalPlayer)
             {
                 Debug.Log("local");
@@ -43,17 +44,8 @@ using MirrorMatchMaking;
     //        NetworkServer.Spawn(obj);
     //    }
       
-    //}
-    //[Command]
-    //private void AddAuth(NetworkIdentity id)
-    //{
-    //    CmdPickupItem(id);
-    //}
-    //void CmdPickupItem(NetworkIdentity item)
-    //{
-    //    item.AssignClientAuthority(connectionToClient);
-    //}
-
+    
+ 
     private void Update()
         {
       

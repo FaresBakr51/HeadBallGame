@@ -1471,6 +1471,7 @@ GameObject:
   - component: {fileID: 3518105128846332107}
   - component: {fileID: 2999458226114648646}
   - component: {fileID: 2580119290194970230}
+  - component: {fileID: 2550621989421258934}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1529,9 +1530,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.61, y: -1.2047045}
+  m_Offset: {x: -0.712297, y: -1.11}
   serializedVersion: 2
-  m_Radius: 0.22538398
+  m_Radius: 0.327681
 --- !u!114 &6433835286561506196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,8 +1643,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matchID: 
   playerIndex: 0
-  _player: {fileID: 0}
-  _ball: {fileID: 0}
+  _gameMaanger: {fileID: 320488996983939647, guid: bfc714ee733fee444987266ca52de8f8, type: 3}
   currentMatch:
     matchID: 
     publicMatch: 0
@@ -1673,6 +1673,27 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &2550621989421258934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433835286561506193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afc19a7a47ad1ba428a55303cd566b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  _players: []
+  _scoreTxt: []
+  _gameOver: 0
+  _goal: 0
+  _spawnPoints: []
+  _gameStart: 0
+  _called: 0
 --- !u!1 &6433835286799485805
 GameObject:
   m_ObjectHideFlags: 0

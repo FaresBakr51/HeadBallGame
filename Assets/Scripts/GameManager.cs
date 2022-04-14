@@ -4,17 +4,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
+using System.Linq;
 public class GameManager : NetworkBehaviour
 {
 
     private static GameManager _instance;
+    
     public List<PlayerController> _players = new List<PlayerController>();
+   
+    public List<Text> _scoreTxt = new List<Text>();
     public bool _gameOver;
+    [SyncVar]
     public bool _goal;
     public GameObject[] _spawnPoints;
     public bool _gameStart;
     [SyncVar]
-    private bool _called;
+    [SerializeField] public bool _called;
+    public struct GameManagerTypes : NetworkMessage
+    {
+        public List<PlayerController> players;
+       public bool goal;
+        
+    }
     public static GameManager Instance
     {
 
@@ -30,6 +41,7 @@ public class GameManager : NetworkBehaviour
     }
     private void OnEnable()
     {
+       
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -39,10 +51,24 @@ public class GameManager : NetworkBehaviour
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+   
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if(scene.name != "Offline")
+        {
+            if (isLocalPlayer)
+            {
+                Debug.Log("Owned Client");
+            }
+            //if (!isServer)
+            //{
+            //    var obj = Instantiate(gameObject);
+            //    NetworkServer.Spawn(obj);
+            //}
+        }
        if(scene.name == "GamePlay")
         {
+           
             GameModes._PvPMode = true;
             Debug.Log("Getting Players and Timer");
             GetSpawnpoints();
@@ -53,18 +79,14 @@ public class GameManager : NetworkBehaviour
   
     private void Awake()
     {
+       
+        _called = false;
         _instance = this;
-        DontDestroyOnLoad(this);
+     //   DontDestroyOnLoad(this);
     }
     private void Update()
     {
         if (!_gameStart) return;
-     //   if(_players.Count < 2) { return; }
-        if (Goal() && !_called)
-        {
-            CmdWaitForGoal();
-            _called = true;
-        }
     }
     private void GetSpawnpoints()
     {
@@ -84,6 +106,10 @@ public class GameManager : NetworkBehaviour
         {
             _players.Add(pl.GetComponent<PlayerController>());
         }
+        foreach(GameObject txt in GameObject.FindGameObjectsWithTag("scoretxt"))
+        {
+            _scoreTxt.Add(txt.GetComponent<Text>());
+        }
 
     }
     public bool IsGameOver()
@@ -95,11 +121,6 @@ public class GameManager : NetworkBehaviour
     {
         return _goal;
     }
-    public virtual GameObject OnRoomServerCreateGamePlayer(NetworkConnection conn)
-    {
-        
-        return null;
-    }
 
     IEnumerator WaitPlayers()
     {
@@ -107,29 +128,39 @@ public class GameManager : NetworkBehaviour
         yield return new WaitForSeconds(2f);
         SetPlayersInfo();
     }
-   
-    private void CmdWaitForGoal()
+    public void CheckAuth(string axis)
     {
-        StartCoroutine(WaitGoal());
-    }
-    [Client]
-    IEnumerator WaitGoal()
-    {
-        Debug.Log("Waiting Goal");
-        yield return new WaitForSeconds(0.5f);
-        GetCurrentGameBall().transform.position = new Vector2(0, 2f);
-        RestPlayer();
-        _goal = false;
-        _called = false;
-    }
-   
-    private void RestPlayer()
-    {
-        foreach(PlayerController obj in _players)
+        if (!hasAuthority)
         {
-            obj.ResetPos();
 
         }
+        else
+        {
+            //AddGoaleToClients(axis);
+        }
+        
     }
+   // [Command(requiresAuthority = true)]
+  //private void AddGoaleToClients(string axis)
+  //  {
+  //      AddToOTherClients(axis);
+
+  //  }
+  //   [ClientRpc]
+  //  private void AddToOTherClients(string axis)
+  //  {
+       
+
+  //      StartCoroutine(RunReset());
+  //  }
+   
+  //  IEnumerator RunReset()
+  //  {
+       
+  //      yield return new WaitForSeconds(1f);
+  //      GetCurrentGameBall().GetComponent<Rigidbody2D>().position = new Vector2(0, 2.5f);
+  //      _players.ForEach(x => x.ResetPos());
+  //      _goal = false;
+  //  }
 
 }

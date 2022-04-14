@@ -5,7 +5,7 @@ using Mirror;
 using System.Linq;
 public class Ball : NetworkBehaviour
 {
-   
+    private GameManage _gammanage;
     private void Start()
     {
         
@@ -25,9 +25,13 @@ public class Ball : NetworkBehaviour
             {
                 if (!GameManager.Instance.IsGameOver() && !GameManager.Instance.Goal())
                 {
-                    var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y == 0);
-                    rightplayer.AddGoalServer(1);
-                   // PlayerGoalServerCmd();
+                    var player = GameObject.FindGameObjectsWithTag("Player").ToList();
+                    var right =  player.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y == 0);
+                    var script = right.GetComponent<PlayerController>();
+                    script.AddGoal("right");
+                    //var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y == 0);
+                    //rightplayer.AddGoal("right");
+               
                 }
             }
         }
@@ -37,15 +41,22 @@ public class Ball : NetworkBehaviour
             {
                 if (!GameManager.Instance.IsGameOver() && !GameManager.Instance.Goal())
                 {
-                    var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y > 20);
-                    rightplayer.AddGoalServer(1);
-                   // PlayerGoalServerCmd();
+                    var player = GameObject.FindGameObjectsWithTag("Player").ToList();
+                    var right = player.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y > 20);
+                    var script = right.GetComponent<PlayerController>();
+                    script.AddGoal("left");
+
+
+                    //var rightplayer = GameManager.Instance._players.FirstOrDefault(x => x.gameObject.transform.localRotation.eulerAngles.y > 20);
+                    //rightplayer.AddGoal("left");
+
+
                 }
             }
         }
     }
 
-
+  
     private void ActivePlayertoShot(GameObject pl)
     {
        var player = pl.GetComponent<PlayerController>();

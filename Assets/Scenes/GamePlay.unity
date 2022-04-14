@@ -547,7 +547,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.4433962, g: 0, b: 0.3113236, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -738,7 +738,7 @@ GameObject:
   - component: {fileID: 933339795}
   m_Layer: 5
   m_Name: Player2Text
-  m_TagString: Untagged
+  m_TagString: scoretxt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1466,6 +1466,7 @@ MonoBehaviour:
   - {fileID: 933339795}
   - {fileID: 2123486213}
   _players: []
+  _gameMaanger: {fileID: 320488996983939647, guid: bfc714ee733fee444987266ca52de8f8, type: 3}
 --- !u!114 &1911868343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1619,7 +1620,7 @@ GameObject:
   - component: {fileID: 2123486213}
   m_Layer: 5
   m_Name: Player1text
-  m_TagString: Untagged
+  m_TagString: scoretxt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
